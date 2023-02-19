@@ -1,0 +1,32 @@
+# Based on https://github.com/ist-dsi/docker-kerberos
+version: "2"
+services:
+  kdc-server:
+    container_name: 'kdc-server'
+    hostname: 'kdc-server'
+    build: .
+    volumes:
+      # This is needed otherwise there won't be enough entropy to generate a new kerberos realm
+      - /dev/urandom:/dev/random
+      - ./etc:/etc
+    ports:
+      - "749:749"
+      - "88:88/udp"
+
+# Based on https://github.com/ist-dsi/docker-kerberos
+version: "2"
+services:
+  kdc-ssh-server:
+    container_name: 'kdc-ssh-server'
+    hostname: 'kdc-ssh-server'
+    build: .
+    volumes:
+      # This is needed otherwise there won't be enough entropy to generate a new kerberos realm
+      - /dev/urandom:/dev/random
+    ports:
+#      - "749:749"
+#      - "88:88/udp"
+      - "2222:22"
+networks:
+  my_persistent_network:
+    driver: bridge

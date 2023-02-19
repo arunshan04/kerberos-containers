@@ -1,14 +1,20 @@
-version: "2"
+version: "3"
 services:
   ssh-server:
     hostname: 'ssh-server'
+    container_name: 'ssh-server'
     build: .
     ports:
-      - "2222:22"
+      - "2221:22"
     entrypoint: /usr/sbin/sshd -D
+
   ssh-client:
     hostname: 'ssh-client'
+    container_name: 'ssh-client'
     build: .
     entrypoint: /bin/bash 
     stdin_open: true # docker run -i
     tty: true        # docker run -t
+networks:
+  my_persistent_network:
+    driver: bridge
